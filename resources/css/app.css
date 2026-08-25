@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --background: 0 0% 100%;
+    --foreground: 210 14% 17%;
+
+    --primary: 210 14% 17%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 9%;
+
+    --muted: 0 0% 96%;
+    --muted-foreground: 184 5% 55%;
+
+    --accent: 239 84% 67%;
+    --accent-foreground: 0 0% 100%;
+
+    --border: 0 0% 90%;
+
+    --ring: 239 84% 67%;
+
+    --radius: 0.5rem;
+
+    --font-display: 'Instrument Serif', serif;
+    --font-body: 'Inter', sans-serif;
+
+    --shadow-dashboard:
+        0 25px 80px -12px rgba(0, 0, 0, 0.08),
+        0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-background text-foreground font-body antialiased selection:bg-accent/20 selection:text-foreground;
+        min-height: 100vh;
+    }
+}
+
+/* Glassmorphism specifically for the marketing dashboard preview container */
+.glass-preview-container {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: var(--shadow-dashboard);
+}
+
+/* Accessible focus styling */
+:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+        animation-delay: -1ms !important;
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        background-attachment: initial !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0s !important;
+        transition-delay: 0s !important;
+    }
+}
