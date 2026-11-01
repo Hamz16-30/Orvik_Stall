@@ -1,0 +1,19 @@
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+
+# Git and dependency directories
+.git
+.github
+node_modules
+vendor
+
+# Generated frontend assets (built in the Docker assets stage)
+public/build
+
+# Runtime data is mounted/created in the container
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
