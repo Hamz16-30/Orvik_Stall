@@ -71,7 +71,13 @@ as the pre-deploy command. Review migration changes before every production rele
 
 **Do not run `php artisan db:seed` or `php artisan migrate --seed` on production in the current repository.** `DatabaseSeeder` calls `DemoBusinessSeeder`, which creates sample businesses and privileged demo users with the password `password`. That is suitable only for isolated development/testing. Production should be initialized with a secure, individually created administrator account and production-safe seed data.
 
-Before enabling public registration, initialize the required role/permission and plan/feature data once from the Railway app service shell:\n\n```bash\nphp artisan db:seed --class=RolesAndPermissionsSeeder --force\nphp artisan db:seed --class=PlanAndFeatureSeeder --force\n```\n\nThese two seeders are separate from the demo seeder and establish the roles, permissions, plans, and default platform settings used by registration. Do not repeatedly run them after operators begin changing platform settings.\n\nCreate the first platform administrator deliberately using `php artisan tinker` in an interactive Railway shell. Create a `App\\Models\\User` with your own name/email, a unique strong password hashed with `Illuminate\\Support\\Facades\\Hash::make(...)`, `status => active`, and `is_platform_admin => true`. Do not use a sample/demo email or password. The normal public registration flow creates a business owner account, not a platform administrator.
+Before enabling public registration, initialize the required role/permission and plan/feature data once from the Railway app service shell:
+
+```bash\nphp artisan db:seed --class=RolesAndPermissionsSeeder --force\nphp artisan db:seed --class=PlanAndFeatureSeeder --force\n```
+
+These two seeders are separate from the demo seeder and establish the roles, permissions, plans, and default platform settings used by registration. Do not repeatedly run them after operators begin changing platform settings.
+
+Create the first platform administrator deliberately using `php artisan tinker` in an interactive Railway shell. Create a `App\\Models\\User` with your own name/email, a unique strong password hashed with `Illuminate\\Support\\Facades\\Hash::make(...)`, `status => active`, and `is_platform_admin => true`. Do not use a sample/demo email or password. The normal public registration flow creates a business owner account, not a platform administrator.
 
 ## 5. Health check and deployment
 
