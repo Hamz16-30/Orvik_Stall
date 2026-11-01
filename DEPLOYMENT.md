@@ -63,17 +63,24 @@ The startup script creates the required Laravel storage directories, fixes owner
 
 Configure the following in the Railway app service's **Settings → Deploy** section:
 
-- **Pre-deploy command:** `php artisan migrate --force`\n- **Healthcheck path:** `/up`\n- **Healthcheck timeout:** `300` seconds\n\nRailway's legacy Config-as-Code files are being retired, so these settings are intentionally configured in the dashboard for a new service. Review migration changes before every production release and take a database backup before migrations that alter or remove existing data.
+- **Pre-deploy command:** `php artisan migrate --force`
+- **Healthcheck path:** `/up`
+- **Healthcheck timeout:** `300` seconds
+
+Railway's legacy Config-as-Code files are being retired, so these settings are intentionally configured in the dashboard for a new service. Review migration changes before every production release and take a database backup before migrations that alter or remove existing data.
 
 **Do not run `php artisan db:seed` or `php artisan migrate --seed` on production in the current repository.** `DatabaseSeeder` calls `DemoBusinessSeeder`, which creates sample businesses and privileged demo users with the password `password`. That is suitable only for isolated development/testing. Production should be initialized with a secure, individually created administrator account and production-safe seed data.
 
 Before enabling public registration, initialize the required role/permission and plan/feature data once from the Railway app service shell:
 
-```bash\nphp artisan db:seed --class=RolesAndPermissionsSeeder --force\nphp artisan db:seed --class=PlanAndFeatureSeeder --force\n```
+```bash
+php artisan db:seed --class=RolesAndPermissionsSeeder --force
+php artisan db:seed --class=PlanAndFeatureSeeder --force
+```
 
 These two seeders are separate from the demo seeder and establish the roles, permissions, plans, and default platform settings used by registration. Do not repeatedly run them after operators begin changing platform settings.
 
-Create the first platform administrator deliberately using `php artisan tinker` in an interactive Railway shell. Create a `App\\Models\\User` with your own name/email, a unique strong password hashed with `Illuminate\\Support\\Facades\\Hash::make(...)`, `status => active`, and `is_platform_admin => true`. Do not use a sample/demo email or password. The normal public registration flow creates a business owner account, not a platform administrator.
+Create the first platform administrator deliberately using `php artisan tinker` in an interactive Railway shell. Create a `App\Models\User` with your own name/email, a unique strong password hashed with `Illuminate\Support\Facades\Hash::make(...)`, `status => active`, and `is_platform_admin => true`. Do not use a sample/demo email or password. The normal public registration flow creates a business owner account, not a platform administrator.
 
 ## 5. Health check and deployment
 
