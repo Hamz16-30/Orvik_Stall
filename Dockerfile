@@ -13,10 +13,8 @@ COPY . .
 RUN npm run build
 
 FROM php:8.3-apache AS app
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    && docker-php-ext-install pdo_mysql opcache \
-    && a2enmod rewrite headers \
-    && rm -rf /var/lib/apt/lists/*
+RUN docker-php-ext-install pdo_mysql opcache \
+    && a2enmod rewrite headers
 
 WORKDIR /var/www/html
 COPY . .
