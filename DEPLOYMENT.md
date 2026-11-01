@@ -61,13 +61,9 @@ The startup script creates the required Laravel storage directories, fixes owner
 
 ## 4. Database migrations and seeders
 
-The included `railway.toml` runs:
+Configure the following in the Railway app service's **Settings → Deploy** section:
 
-```bash
-php artisan migrate --force
-```
-
-as the pre-deploy command. Review migration changes before every production release and take a database backup before migrations that alter or remove existing data.
+- **Pre-deploy command:** `php artisan migrate --force`\n- **Healthcheck path:** `/up`\n- **Healthcheck timeout:** `300` seconds\n\nRailway's legacy Config-as-Code files are being retired, so these settings are intentionally configured in the dashboard for a new service. Review migration changes before every production release and take a database backup before migrations that alter or remove existing data.
 
 **Do not run `php artisan db:seed` or `php artisan migrate --seed` on production in the current repository.** `DatabaseSeeder` calls `DemoBusinessSeeder`, which creates sample businesses and privileged demo users with the password `password`. That is suitable only for isolated development/testing. Production should be initialized with a secure, individually created administrator account and production-safe seed data.
 
@@ -81,7 +77,7 @@ Create the first platform administrator deliberately using `php artisan tinker` 
 
 ## 5. Health check and deployment
 
-- Health check path: `/up` (already registered in Laravel 11's `bootstrap/app.php`).
+- Health check path: `/up` (already registered in Laravel 11's `bootstrap/app.php` and configured in Railway service settings).
 - The container listens on Railway's injected `PORT`.
 - Apache serves only from Laravel's `public/` directory.
 - Pushes to the connected branch can trigger Railway GitHub auto-deploys.
